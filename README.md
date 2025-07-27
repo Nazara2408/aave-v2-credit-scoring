@@ -25,11 +25,27 @@ Applied dummy fallback for wallets where API data was unavailable. Then applied 
   1) wallet_risk_scores_ml.csv — ML-based final scores for all dummy wallets.
   2) wallet_risk_scores_rule_based.csv — Rule-based scores (only 3 valid).
 
-## 📦 Output Files
+## Output Files
 
 1) rule_based_wallet_risk_scores.csv - Rule-based risk scores (3 valid wallets)
 2) rf_wallet_risk_scores.csv         - Random Forest output (all dummy wallets)
-3) xgb_wallet_risk_scores.csv        - Final ML output using XGBoost              
+3) xgb_wallet_risk_scores.csv        - Final ML output using XGBoost
+
+# Feature selections:
+features that helped the model identify risk patterns similar to how a financial analyst would assess leverage and safety margins.
+Initially Features Choosen to help predicting risk score are listed below:
+
+1)borrow_eth     -  Amount of ETH borrowed; higher borrowing implies higher default risk 
+2)collateral_eth - Amount of ETH used as collateral; low collateral increases liquidation risk 
+3)health         - Health score of the wallet; low health indicates high risk                  
+4)supplied_assets - Number of unique tokens supplied; higher diversification lowers risk        
+5)borrowed_assets - Number of unique tokens borrowed; more borrowing indicates higher exposure 
+
+But later engineered Features for model improvement and expresiveness are:
+-borrow_to_collateral = borrow_eth / collateral_eth
+-borrow_to_supply = borrow_eth / (collateral_eth + supplied_assets)
+-net_exposure = borrow_eth - collateral_eth
+-utilization = borrowed_assets / supplied_assets
 
 # Limitations
 
